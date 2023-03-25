@@ -1,7 +1,7 @@
 import "tailwindcss/tailwind.css"
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Homepage from './pages/homepage';
+import GiftGenerator from './pages/giftGenerator';
 
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     <main>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Homepage />} />
+          <Route path="/" element={<GiftGenerator />} />
         </Routes>
       </BrowserRouter>
     </main>
