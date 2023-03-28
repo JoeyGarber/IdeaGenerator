@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { generateIdeas } from '../api/openAi'
 
 import Female from '../assets/Female.png'
@@ -25,9 +25,20 @@ export default function GiftGenerator () {
         console.log(resp.data.choices[0].message.content)
         setGiftIdeas(resp.data.choices[0].message.content)
       })
+      .then(() => setPage(5))
       .catch((error) => console.log(error))
     }
   }
+
+  useEffect(() => {
+    if (allParamsFilled()) {
+      generateGifts(budget, age, gender, interest)
+      setBudget('')
+      setAge('')
+      setGender('')
+      setInterest('')
+    }
+  }, [budget, gender, age, interest])
 
   const formatOutput = (ideas: string) => {
     // Remove all instances of numbers followed by a period and 0 or more spaces at the beginning of a line
@@ -66,39 +77,36 @@ export default function GiftGenerator () {
                 </div>
       case 1:
         return  <div className="flex flex-col items-center">
-                  <h3 className="text-xl font-bold">Select Your Budget</h3>
-                  <img alt='Up To Twenty' className="w-[8vw] border-2 border-green-500 rounded-lg" src={UpToTwenty} onClick={() => {
-                    setBudget('up to 20 dollars')
-                    setPage((prev) => prev + 1)
-                  }} />
-                  <img alt='Up to Forty' className="w-[8vw] border-2 border-green-500 rounded-lg" src={UpToForty} onClick={() => {
-                    setBudget('up to 40 dollars')
-                    setPage((prev) => prev + 1)
-                  }} />
-                  <img alt='Up to One Hundred' className="w-[8vw] border-2 border-green-500 rounded-lg" src={UpToHundred} onClick={() => {
-                    setBudget('up to 100 dollars')
-                    setPage((prev) => prev + 1)
-                  }} />
-                  <img alt='One Hundred or More' className="w-[8vw] border-2 border-green-500 rounded-lg" src={HundredOrMore} onClick={() => {
-                    setBudget('one hundred dollars or more')
-                    setPage((prev) => prev + 1)
-                  }} />
+                  <h3 className="text-xl font-bold">Select Your Recipient's Age</h3>
+                  <input autoFocus onFocus={(e) => e.currentTarget.select()} className="outline outline-1 m-1" type="text" pattern="\d*"  placeholder="age" value={age} onChange={(e) => setAge(e.target.value)}  />            
                 </div>
       case 2:
-        return  <div className="flex flex-col items-center">
-                  <h3 className="text-xl font-bold">Select Your Recipient's Age</h3>
-                  <input autoFocus onFocus={(e) => e.currentTarget.select()} className="outline outline-1 m-1" type="text" pattern="\d*"  placeholder="age" value={age} onChange={(e) => setAge(e.target.value)}  />
-                </div>
-      case 3:
         return  <div className="flex flex-col items-center">
                   <h3 className="text-xl font-bold">Input Your Recipient's Interests</h3>
                   <input autoFocus onFocus={(e) => e.currentTarget.select()} className="outline outline-1 m-1" type="text" placeholder="interest" value={interest} onChange={(e) => setInterest(e.target.value)}  />
                 </div>
+      case 3:
+        return  <div className="flex flex-col items-center">
+                  <h3 className="text-xl font-bold">Select Your Budget</h3>
+                  <img alt='Up To Twenty' className="w-[8vw] border-2 border-green-500 rounded-lg m-1" src={UpToTwenty} onClick={() => {
+                    setBudget('up to 20 dollars')
+                    setPage((prev) => prev + 1)
+                  }} />
+                  <img alt='Up to Forty' className="w-[8vw] border-2 border-green-500 rounded-lg m-1" src={UpToForty} onClick={() => {
+                    setBudget('up to 40 dollars')
+                    setPage((prev) => prev + 1)
+                  }} />
+                  <img alt='Up to One Hundred' className="w-[8vw] border-2 border-green-500 rounded-lg m-1" src={UpToHundred} onClick={() => {
+                    setBudget('up to 100 dollars')
+                    setPage((prev) => prev + 1)
+                  }} />
+                  <img alt='One Hundred or More' className="w-[8vw] border-2 border-green-500 rounded-lg m-1" src={HundredOrMore} onClick={() => {
+                    setBudget('one hundred dollars or more')
+                    setPage((prev) => prev + 1)
+                  }} />
+                </div>
       case 4:
-        if (allParamsFilled()) {
-          return <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1" onClick={() => generateGifts(budget, age, gender, interest)}>Generate Ideas!</button>
-        }
-        return <p>You missed a field!</p>
+        return <h1>Loading...</h1>
     }
   }
 
@@ -117,18 +125,23 @@ export default function GiftGenerator () {
       <h1 className="text-3xl font-bold underline m-1">Gift Generator</h1>
       {conditionalForm()}
         <div>
-          {page > 0 &&
+          {page > 0 && page < 5 &&
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1" onClick={handlePrev}>
               Back
             </button>
           }
-          {page > 1 && page < 4 &&
+          {page > 0 && page < 3 &&
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1" onClick={handleNext}>
             Next
             </button>
           }
         </div>
-      {giftIdeas && formatOutput(giftIdeas)}
+      {giftIdeas && 
+      <>
+      <h1>Click to Purchase!</h1>
+      {formatOutput(giftIdeas)}
+      </>
+      }
     </div>
   )
 }
