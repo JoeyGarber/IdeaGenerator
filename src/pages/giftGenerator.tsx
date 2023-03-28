@@ -30,7 +30,7 @@ export default function GiftGenerator () {
     return (
       <ul>
         {cleanedIdeasArray.map((idea: string, idx: number) => {
-          const amazonUrl = `https://amazon.com/s?k=${idea.replaceAll(' ', '+')}&sprefix=little+%2Caps%2C177&linkCode=ll2&tag=you0f552-20&linkId=d0a71f95525ab2c5fc77ecd8228711c5&language=en_US&ref_=as_li_ss_tl`
+          const amazonUrl = `https://amazon.com/s?k=${idea.replaceAll(' ', '+')}&linkCode=ll2&tag=idealgifts09-20`
           return (
           <li key={idx}><a className="font-medium text-blue-600 dark:text-blue-500 hover:underline" href={amazonUrl}>{idea}</a></li>
           )
