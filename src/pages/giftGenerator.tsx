@@ -56,7 +56,7 @@ export default function GiftGenerator () {
                   <input autoFocus onFocus={(e) => e.currentTarget.select()} className="outline outline-1 m-1" type="text" pattern="\d*"  placeholder="age" value={age} onChange={(e) => setAge(e.target.value)}  />
                 </div>
       case 2:
-        return  <div>
+        return  <div className="flex flex-col items-center">
                   <h3 className="text-xl font-bold">Gender</h3>
                   <select className="p-1" name="gender" id="gender" value={gender} onChange={(e) => setGender(e.target.value)}>
                     <option value="select option" disabled={true}>Select Option</option>
