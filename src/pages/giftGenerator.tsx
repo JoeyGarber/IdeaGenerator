@@ -155,7 +155,7 @@ export default function GiftGenerator () {
       <h1 className="text-3xl font-bold underline m-4" onClick={resetTest}>Gift Generator</h1>
       {conditionalForm()}
         <div>
-          {page > 0 && page < 5 &&
+          {page > 0 && page < 4 &&
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1" onClick={handlePrev}>
               Back
             </button>
