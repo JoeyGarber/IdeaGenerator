@@ -78,19 +78,20 @@ export default function GiftGenerator () {
   const conditionalForm = () => {
     const ageButtonClass = "flex justify-center bg-white border-2 border-blue-500 w-[48vw] md:w-[8vw] font-bold rounded-lg text-black p-3 m-2"
     const budgetButtonClass = "w-[35vw] md:w-[8vw] border-2 border-green-500 rounded-lg m-1"
+    const genderButtonClass = "flex flex-col items-center w-[60vw] md:w-[12vw] border-2 rounded-lg m-1"
 
     switch (page) {
       case 0:
         return  <div className="flex flex-col items-center">
                   <h3 className="text-xl font-bold">Select Your Recipient's Gender</h3>
-                  <div className="flex flex-col items-center w-[60vw] md:w-[12vw] border-2 border-pink-500 rounded-lg m-1">
+                  <div className={`${genderButtonClass} border-pink-500`}>
                     <img alt='woman icon'  src={Female} onClick={() => {
                       setGender('female')
                       setPage((prev) => prev + 1)
                     }} />
                     <p className="text-lg font-bold">Female</p>
                   </div>
-                  <div className="flex flex-col items-center w-[60vw] md:w-[12vw] border-2 border-blue-500 rounded-lg m-1">
+                  <div className={`${genderButtonClass} border-blue-500`}>
                     <img alt='man icon' src={Male} onClick={() => {
                       setGender('male')
                       setPage((prev) => prev + 1)
