@@ -30,6 +30,15 @@ export default function GiftGenerator () {
     }
   }
 
+  const resetTest = () => {
+    setBudget('')
+    setAge('')
+    setGender('')
+    setInterest('')
+    setGiftIdeas('')
+    setPage(0)
+  }
+
   useEffect(() => {
     if (allParamsFilled()) {
       generateGifts(budget, age, gender, interest)
@@ -46,11 +55,11 @@ export default function GiftGenerator () {
     // Split on line breaks, filter out empty entries
     const cleanedIdeasArray = cleanedIdeas.split(/\n/).filter((idea: string) => idea.length > 0)
     return (
-      <ul>
+      <ul className="flex flex-col items-center p-3">
         {cleanedIdeasArray.map((idea: string, idx: number) => {
           const amazonUrl = `https://amazon.com/s?k=${idea.replaceAll(' ', '+')}&linkCode=ll2&tag=idealgifts09-20`
           return (
-          <li key={idx}><a className="font-medium text-blue-600 dark:text-blue-500 hover:underline" href={amazonUrl}>{idea}</a></li>
+          <li key={idx}><a className="text-blue-600 font-bold dark:text-blue-500 hover:underline m-2" href={amazonUrl}>{idea}</a></li>
           )
         })}
       </ul>
@@ -61,24 +70,45 @@ export default function GiftGenerator () {
     return budget && age && gender && interest
   }
 
+  const setAgeAndIncrement = (string: string) => {
+    setAge(string)
+    setPage((prev) => prev + 1)
+  }
+
   const conditionalForm = () => {
+    const ageButtonClass = "flex justify-center bg-white border-2 border-blue-500 w-[48vw] md:w-[8vw] font-bold rounded-lg text-black p-3 m-2"
+    const budgetButtonClass = "w-[35vw] md:w-[8vw] border-2 border-green-500 rounded-lg m-1"
+
     switch (page) {
       case 0:
         return  <div className="flex flex-col items-center">
                   <h3 className="text-xl font-bold">Select Your Recipient's Gender</h3>
-                  <img alt='woman icon' className="w-[12vw] border-2 border-pink-500 rounded-lg m-1" src={Female} onClick={() => {
-                    setGender('female')
-                    setPage((prev) => prev + 1)
-                  }} />
-                  <img alt='man icon' className="w-[12vw] border-2 border-blue-500 rounded-lg m-1" src={Male} onClick={() => {
-                    setGender('male')
-                    setPage((prev) => prev + 1)
-                  }} />
+                  <div className="flex flex-col items-center w-[60vw] md:w-[12vw] border-2 border-pink-500 rounded-lg m-1">
+                    <img alt='woman icon'  src={Female} onClick={() => {
+                      setGender('female')
+                      setPage((prev) => prev + 1)
+                    }} />
+                    <p className="text-lg font-bold">Female</p>
+                  </div>
+                  <div className="flex flex-col items-center w-[60vw] md:w-[12vw] border-2 border-blue-500 rounded-lg m-1">
+                    <img alt='man icon' src={Male} onClick={() => {
+                      setGender('male')
+                      setPage((prev) => prev + 1)
+                    }} />
+                    <p className="text-lg font-bold">Male</p>
+                  </div>
                 </div>
       case 1:
         return  <div className="flex flex-col items-center">
                   <h3 className="text-xl font-bold">Select Your Recipient's Age</h3>
-                  <input autoFocus onFocus={(e) => e.currentTarget.select()} className="outline outline-1 m-1" type="text" pattern="\d*"  placeholder="age" value={age} onChange={(e) => setAge(e.target.value)}  />            
+                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('toddler age')}><p>Toddler</p></div>
+                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('elementary school age')}><p>Elementary School</p></div>           
+                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('middle school age')}><p>Middle School</p></div>           
+                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('teenage')}><p>Teen</p></div>           
+                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('mid twenties')}><p>20s</p></div>           
+                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('mid thirties')}><p>30s</p></div>
+                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('mid forties')}><p>40s</p></div>
+                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('fifty years old or older')}><p>50s</p></div>
                 </div>
       case 2:
         return  <div className="flex flex-col items-center">
@@ -88,19 +118,19 @@ export default function GiftGenerator () {
       case 3:
         return  <div className="flex flex-col items-center">
                   <h3 className="text-xl font-bold">Select Your Budget</h3>
-                  <img alt='Up To Twenty' className="w-[8vw] border-2 border-green-500 rounded-lg m-1" src={UpToTwenty} onClick={() => {
+                  <img alt='Up To Twenty' className={budgetButtonClass} src={UpToTwenty} onClick={() => {
                     setBudget('up to 20 dollars')
                     setPage((prev) => prev + 1)
                   }} />
-                  <img alt='Up to Forty' className="w-[8vw] border-2 border-green-500 rounded-lg m-1" src={UpToForty} onClick={() => {
+                  <img alt='Up to Forty' className={budgetButtonClass} src={UpToForty} onClick={() => {
                     setBudget('up to 40 dollars')
                     setPage((prev) => prev + 1)
                   }} />
-                  <img alt='Up to One Hundred' className="w-[8vw] border-2 border-green-500 rounded-lg m-1" src={UpToHundred} onClick={() => {
+                  <img alt='Up to One Hundred' className={budgetButtonClass} src={UpToHundred} onClick={() => {
                     setBudget('up to 100 dollars')
                     setPage((prev) => prev + 1)
                   }} />
-                  <img alt='One Hundred or More' className="w-[8vw] border-2 border-green-500 rounded-lg m-1" src={HundredOrMore} onClick={() => {
+                  <img alt='One Hundred or More' className={budgetButtonClass} src={HundredOrMore} onClick={() => {
                     setBudget('one hundred dollars or more')
                     setPage((prev) => prev + 1)
                   }} />
@@ -122,7 +152,7 @@ export default function GiftGenerator () {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-3xl font-bold underline m-1">Gift Generator</h1>
+      <h1 className="text-3xl font-bold underline m-4" onClick={resetTest}>Gift Generator</h1>
       {conditionalForm()}
         <div>
           {page > 0 && page < 5 &&
@@ -138,7 +168,8 @@ export default function GiftGenerator () {
         </div>
       {giftIdeas && 
       <>
-      <h1>Click to Purchase!</h1>
+      <h1 className="text-lg font-bold">Here are some gift ideas!</h1>
+      <h3 className="text-lg">Click any to see the top options!</h3>
       {formatOutput(giftIdeas)}
       </>
       }
