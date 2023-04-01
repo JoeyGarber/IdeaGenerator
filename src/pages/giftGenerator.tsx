@@ -171,7 +171,7 @@ export default function GiftGenerator () {
       <h1 className="text-lg font-bold">Here are some gift ideas!</h1>
       <h3 className="text-lg">Click any to see the top options!</h3>
       {formatOutput(giftIdeas)}
-                <h3 className="text-lg">As an Amazon Associate I earn from qualifying purchases. Happy gifting!</h3>
+                <h6 className="text-lg">As an Amazon Associate I earn from qualifying purchases. Happy gifting!</h6>
       </>
       }
     </div>
