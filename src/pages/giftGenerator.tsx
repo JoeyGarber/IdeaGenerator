@@ -136,7 +136,7 @@ export default function GiftGenerator () {
                   }} />
                 </div>
       case 4:
-        return <h1>Loading...</h1>
+        return <h1>Loading gift ideas faster than you can say supercalifragilisticexpialidocious...</h1>
     }
   }
 
