@@ -171,6 +171,7 @@ export default function GiftGenerator () {
       <h1 className="text-lg font-bold">Here are some gift ideas!</h1>
       <h3 className="text-lg">Click any to see the top options!</h3>
       {formatOutput(giftIdeas)}
+                <h3 className="text-lg">The above are affiliate links so if you order it, I get a small commission. This does not change the price at all for you. Happy gifting!</h3>
       </>
       }
     </div>
