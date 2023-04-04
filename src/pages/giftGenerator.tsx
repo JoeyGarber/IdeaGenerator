@@ -7,6 +7,7 @@ import UpToTwenty from '../assets/UpToTwenty.png'
 import UpToForty from '../assets/UpToForty.png'
 import UpToHundred from '../assets/UpToHundred.png'
 import HundredOrMore from '../assets/HundredOrMore.png'
+import { submitJotform } from '../api/jotform'
 
 export default function GiftGenerator () {
   const [page, setPage] = useState(0)
@@ -25,6 +26,7 @@ export default function GiftGenerator () {
         console.log(resp.data.choices[0].message.content)
         setGiftIdeas(resp.data.choices[0].message.content)
       })
+      .then(() => submitJotform(budget, age, gender, interest))
       .then(() => setPage(5))
       .catch((error) => console.log(error))
     }
