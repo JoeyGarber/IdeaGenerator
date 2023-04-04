@@ -35,7 +35,6 @@ export default function GiftGenerator () {
       const content = `Give me a list of gift ideas without descriptions for gifts ${budget} for a(n) ${age} ${gender} who is interested in ${interest}`
       generateIdeas({ model, content })
       .then((resp: any) => {
-        console.log(resp.data.choices[0].message.content)
         setGiftIdeas(resp.data.choices[0].message.content)
       })
       .then(() => submitJotform(budget, age, gender, interest))

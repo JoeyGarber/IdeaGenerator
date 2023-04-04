@@ -8,7 +8,6 @@ interface IProps {
 }
 
 export const generateIdeas = ({ model, content }: IProps) => {
-  console.log(process.env.REACT_APP_OPENAI_API_KEY)
   return axios.post(openAiUrl, {
     model,
     messages: [
