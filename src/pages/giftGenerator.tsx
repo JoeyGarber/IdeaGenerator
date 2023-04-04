@@ -17,6 +17,18 @@ export default function GiftGenerator () {
   const [interest, setInterest] = useState('')
   const [giftIdeas, setGiftIdeas] = useState('')
 
+  const gifs  = [
+  <iframe src="https://giphy.com/embed/91bOJ10KUjjLjSD6DC" title="first" className="giphy-embed" allowFullScreen></iframe>,
+  <iframe src="https://giphy.com/embed/trgynYVwIQHL5pp3xB" title="second" className="giphy-embed" allowFullScreen></iframe>,
+  <iframe src="https://giphy.com/embed/CCgX0wBtVUmSZ0DrRT" title="third" className="giphy-embed" allowFullScreen></iframe>,
+  <iframe src="https://giphy.com/embed/5Y2bU7FqLOuzK" title="forth" className="giphy-embed" allowFullScreen></iframe>,
+  <iframe src="https://giphy.com/embed/9VrBXYVGAX0bAEzSAT" title="fifth" className="giphy-embed" allowFullScreen></iframe>,
+  <iframe src="https://giphy.com/embed/xULW8ohR9OvNoohoEU" title="sixth" className="giphy-embed" allowFullScreen></iframe>,
+  <iframe src="https://giphy.com/embed/zy6cfH1ZelttK" title="seventh" className="giphy-embed" allowFullScreen></iframe>
+  ]
+
+
+
   const generateGifts = (budget: string, age: string, gender: string, interest: string) => {
     const model = "gpt-3.5-turbo"
     if (budget && age && gender && interest) {
@@ -111,11 +123,12 @@ export default function GiftGenerator () {
                   <div className={ageButtonClass} onClick={() => setAgeAndIncrement('mid twenties')}><p>20s</p></div>           
                   <div className={ageButtonClass} onClick={() => setAgeAndIncrement('mid thirties')}><p>30s</p></div>
                   <div className={ageButtonClass} onClick={() => setAgeAndIncrement('mid forties')}><p>40s</p></div>
-                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('fifty years old or older')}><p>50s</p></div>
+                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('mid fifties')}><p>50s</p></div>
+                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('sixty years old or older')}><p>60s</p></div>
                 </div>
       case 2:
         return  <div className="flex flex-col items-center">
-                  <h3 className="text-xl font-bold">Input Your Recipient's Interests</h3>
+                  <h3 className="text-xl font-bold">What's something they're interested in?</h3>
                   <input autoFocus onFocus={(e) => e.currentTarget.select()} className="outline outline-1 m-1" type="text" placeholder="interest" value={interest} onChange={(e) => setInterest(e.target.value)}  />
                 </div>
       case 3:
@@ -139,7 +152,7 @@ export default function GiftGenerator () {
                   }} />
                 </div>
       case 4:
-        return <h1>Loading gift ideas faster than you can say supercalifragilisticexpialidocious...</h1>
+        return gifs[Math.floor(Math.random() * gifs.length)]
     }
   }
 
@@ -174,7 +187,7 @@ export default function GiftGenerator () {
       <h1 className="text-lg font-bold">Here are some gift ideas!</h1>
       <h3 className="text-lg">Click any to see the top options!</h3>
       {formatOutput(giftIdeas)}
-                <h6 className="text-lg">As an Amazon Associate I earn from qualifying purchases. Happy gifting!</h6>
+      <h6 className="text-md">As an Amazon Associate I earn from qualifying purchases. Happy gifting!</h6>
       </>
       }
     </div>
