@@ -152,7 +152,14 @@ export default function GiftGenerator () {
                   }} />
                 </div>
       case 4:
-        return gifs[Math.floor(Math.random() * gifs.length)]
+        return (
+            <>
+              {gifs[Math.floor(Math.random() * gifs.length)]}
+              <p>Loading faster than you can say supercalifragilistic...</p>
+            </>
+        )
+         
+
     }
   }
 
