@@ -72,8 +72,8 @@ export default function GiftGenerator () {
     return budget && age && gender && interest
   }
 
-  const setAgeAndIncrement = (string: string) => {
-    setAge(string)
+  const setAgeAndIncrement = (age: string) => {
+    setAge(age)
     setPage((prev) => prev + 1)
   }
 
