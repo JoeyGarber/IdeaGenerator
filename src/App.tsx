@@ -2,6 +2,7 @@ import "tailwindcss/tailwind.css"
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import GiftGenerator from './pages/giftGenerator';
+import { Analytics } from '@vercel/analytics/react';
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
           <Route path="/" element={<GiftGenerator />} />
         </Routes>
       </BrowserRouter>
+      <Analytics />
     </main>
   );
 }
