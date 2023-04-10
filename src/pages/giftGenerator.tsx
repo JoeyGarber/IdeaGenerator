@@ -7,6 +7,7 @@ import UpToTwenty from '../assets/UpToTwenty.png'
 import UpToForty from '../assets/UpToForty.png'
 import UpToHundred from '../assets/UpToHundred.png'
 import HundredOrMore from '../assets/HundredOrMore.png'
+import { pregeneratedInterests } from '../pregeneratedInterests'
 import { submitJotform } from '../api/jotform'
 
 export default function GiftGenerator () {
@@ -15,6 +16,7 @@ export default function GiftGenerator () {
   const [age, setAge] = useState('')
   const [gender, setGender] = useState('')
   const [interest, setInterest] = useState('')
+  const [interests, setInterests] = useState<string[]>([])
   const [giftIdeas, setGiftIdeas] = useState('')
 
   const gifs  = [
@@ -26,8 +28,6 @@ export default function GiftGenerator () {
   <iframe src="https://giphy.com/embed/xULW8ohR9OvNoohoEU" title="sixth" className="giphy-embed" allowFullScreen></iframe>,
   <iframe src="https://giphy.com/embed/zy6cfH1ZelttK" title="seventh" className="giphy-embed" allowFullScreen></iframe>
   ]
-
-
 
   const generateGifts = (budget: string, age: string, gender: string, interest: string) => {
     const model = "gpt-3.5-turbo"
@@ -43,23 +43,30 @@ export default function GiftGenerator () {
     }
   }
 
+  const formatInterests = (interests: string[]) => {
+    return interests.join(' and ')
+  }
+
   const resetTest = () => {
     setBudget('')
     setAge('')
     setGender('')
     setInterest('')
+    setInterests([])
     setGiftIdeas('')
     setPage(0)
   }
 
   useEffect(() => {
     if (allParamsFilled()) {
-      generateGifts(budget, age, gender, interest)
+      generateGifts(budget, age, gender, formatInterests(interests))
       setBudget('')
       setAge('')
       setGender('')
       setInterest('')
+      setInterests([])
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [budget, gender, age, interest])
 
   const formatOutput = (ideas: string) => {
@@ -80,7 +87,7 @@ export default function GiftGenerator () {
   }
 
   const allParamsFilled = () => {
-    return budget && age && gender && interest
+    return budget && age && gender && interests.length > 0
   }
 
   const setAgeAndIncrement = (age: string) => {
@@ -88,15 +95,110 @@ export default function GiftGenerator () {
     setPage((prev) => prev + 1)
   }
 
+  const addUniqueInterest = (interest: string) => {
+    if (interests.findIndex((item: string) => interest.toLowerCase() === item.toLowerCase()) < 0 && interest !== '') {
+      setInterests((prev: string[]) => [...prev, interest])
+    }
+  }
+
+  const handleSubmitInterest = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    addUniqueInterest(interest)
+    setInterest('')
+  }
+
+  const conditionalPregeneratedInterests = (age: string, gender: string) => {
+    const clickable = (interestArray: string[]) => {
+      return (
+        <div className="flex flex-col">
+          {interestArray.map((interest: string, index: number) => {
+            if (interests.indexOf(interest) > -1) {
+              return (
+                <p className="font-bold text-white" key={index} onClick={(e) => {
+                  addUniqueInterest(interest)
+                }}>{interest}</p>
+              )
+            }
+            return (
+              <p className="font-bold" key={index} onClick={(e) => {
+                addUniqueInterest(interest)
+              }}>{interest}</p>
+            )
+          })}
+        </div>
+      )
+    }
+
+    if (age && gender) {
+      switch (age + ' ' + gender) {
+        case('toddler age male'): {
+          return clickable(pregeneratedInterests.toddlerMale)
+        }
+        case('toddler age female'): {
+          return clickable(pregeneratedInterests.toddlerFemale)
+        }
+        case('elementary school age male'): {
+          return clickable(pregeneratedInterests.elementaryMale)
+        }
+        case('elementary school age female'): {
+          return clickable(pregeneratedInterests.elementaryFemale)
+        }
+        case('middle school age male'): {
+          return clickable(pregeneratedInterests.middleSchoolMale)
+        }
+        case('middle school age female'): {
+          return clickable(pregeneratedInterests.middleSchoolFemale)
+        }
+        case('teenage male'): {
+          return clickable(pregeneratedInterests.teenageMale)
+        }
+        case('teenage female'): {
+          return clickable(pregeneratedInterests.teenageFemale)       
+        }
+        case('mid twenties male'): {
+          return clickable(pregeneratedInterests.twentiesMale)
+        }
+        case('mid twenties female'): {
+          return clickable(pregeneratedInterests.twentiesFemale)
+        }
+        case('mid thirties male'): {
+          return clickable(pregeneratedInterests.thirtiesMale)
+        }
+        case('mid thirties female'): {
+          return clickable(pregeneratedInterests.thirtiesFemale)
+        }
+        case('mid forties male'): {
+          return clickable(pregeneratedInterests.fortiesMale)
+        }
+        case('mid forties female'): {
+          return clickable(pregeneratedInterests.fortiesFemale)
+        }
+        case('mid fifties male'): {
+          return clickable(pregeneratedInterests.fiftiesMale)
+        }
+        case('mid fifties female'): {
+          return clickable(pregeneratedInterests.fiftiesFemale)
+        }
+        case('sixty years old or older male'): {
+          return clickable(pregeneratedInterests.sixtiesMale)
+        }
+        case('sixty years old or older female'): {
+          return clickable(pregeneratedInterests.sixtiesMale)
+        }
+      }
+    }
+  }
+
   const conditionalForm = () => {
-    const ageButtonClass = "flex justify-center bg-white border-2 border-blue-500 w-[48vw] md:w-[8vw] font-bold rounded-lg text-black p-3 m-2"
-    const budgetButtonClass = "w-[35vw] md:w-[8vw] border-2 border-green-500 rounded-lg m-1"
-    const genderButtonClass = "flex flex-col items-center w-[60vw] md:w-[12vw] border-2 rounded-lg m-1"
+    const ageButtonClass = "flex justify-center bg-white border-2 border-blue-500 w-60 min-w-[100px] font-bold rounded-lg text-black p-3 m-1"
+    const budgetButtonClass = "w-32 sm:w-36 border-2 border-green-500 rounded-lg m-1 bg-white"
+    const genderButtonClass = "flex flex-col items-center w-[40vw] sm:w-60 min-w-[150px] border-2 rounded-lg m-1 bg-white"
+    const headingClass = "text-xl font-bold mb-2"
 
     switch (page) {
       case 0:
         return  <div className="flex flex-col items-center">
-                  <h3 className="text-xl font-bold">Select Your Recipient's Gender</h3>
+                  <h3 className={headingClass}>Select Your Recipient's Gender</h3>
                   <div className={`${genderButtonClass} border-pink-500`}>
                     <img alt='woman icon'  src={Female} onClick={() => {
                       setGender('female')
@@ -114,7 +216,7 @@ export default function GiftGenerator () {
                 </div>
       case 1:
         return  <div className="flex flex-col items-center">
-                  <h3 className="text-xl font-bold">Select Your Recipient's Age</h3>
+                  <h3 className={headingClass}>Select Your Recipient's Age</h3>
                   <div className={ageButtonClass} onClick={() => setAgeAndIncrement('toddler age')}><p>Toddler</p></div>
                   <div className={ageButtonClass} onClick={() => setAgeAndIncrement('elementary school age')}><p>Elementary School</p></div>           
                   <div className={ageButtonClass} onClick={() => setAgeAndIncrement('middle school age')}><p>Middle School</p></div>           
@@ -127,12 +229,25 @@ export default function GiftGenerator () {
                 </div>
       case 2:
         return  <div className="flex flex-col items-center">
-                  <h3 className="text-xl font-bold">What's something they're interested in?</h3>
-                  <input autoFocus onFocus={(e) => e.currentTarget.select()} className="outline outline-1 m-1" type="text" placeholder="interest" value={interest} onChange={(e) => setInterest(e.target.value)}  />
+                  <h3 className={headingClass}>What's something they're interested in?</h3>
+                  <div>
+                    <h2 className="text-xl font-bold m-0">Selected Interests: </h2>
+                    <h4 className="font-thin p-0 mb-2">Click an interest to delete it</h4>
+
+                      <ul className="list-disc font-bold text-xl">
+                      {interests.map((interest:string, index:number) => <li onClick={() => setInterests((prev: string[]) => prev.filter((int:string) => int !== interest))} key={index}>{interest}</li>)}
+                      </ul>
+                  </div>
+                  <form onSubmit={(e) => handleSubmitInterest(e)}>
+                    <input autoFocus onFocus={(e) => e.currentTarget.select()} className="outline outline-1 m-1" type="text" placeholder="interest" value={interest} onChange={(e) => setInterest(e.target.value)}  />
+                    <button type="submit" className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-blue-500">Add Interest</button>
+                  </form>
+                  {conditionalPregeneratedInterests(age, gender)}
+                  <h2 className="font-thin m-0">Click "Next" when you're finished</h2>
                 </div>
       case 3:
         return  <div className="flex flex-col items-center">
-                  <h3 className="text-xl font-bold">Select Your Budget</h3>
+                  <h3 className={headingClass}>Select Your Budget</h3>
                   <img alt='Up To Twenty' className={budgetButtonClass} src={UpToTwenty} onClick={() => {
                     setBudget('up to 20 dollars')
                     setPage((prev) => prev + 1)
@@ -157,8 +272,6 @@ export default function GiftGenerator () {
               <p>Loading faster than you can say supercalifragilistic...</p>
             </>
         )
-         
-
     }
   }
 
@@ -174,16 +287,18 @@ export default function GiftGenerator () {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-3xl font-bold underline m-4" onClick={resetTest}>Gift Generator</h1>
+      <div className="flex justify-center w-screen bg-white pb-1 mb-4">
+        <h1 className="text-3xl font-bold m-4" onClick={resetTest}>Gift Generator</h1>
+      </div>
       {conditionalForm()}
         <div>
           {page > 0 && page < 4 &&
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1" onClick={handlePrev}>
+            <button className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" onClick={handlePrev}>
               Back
             </button>
           }
-          {page > 0 && page < 3 &&
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1" onClick={handleNext}>
+          {page === 2 &&
+            <button className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" onClick={handleNext}>
             Next
             </button>
           }
