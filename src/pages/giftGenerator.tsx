@@ -246,7 +246,6 @@ export default function GiftGenerator () {
                     <input autoFocus onFocus={(e) => e.currentTarget.select()} className="outline outline-1 m-1" type="text" placeholder="interest" value={interest} onChange={(e) => setInterest(e.target.value)}  />
                     <button type="submit" className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-blue-500">Add Interest</button>
                   </form>
-                  {conditionalPregeneratedInterests(age, gender)}
                   <h2 className="font-thin m-0">Click "Next" when you're finished</h2>
                 </div>
       case 3:
@@ -307,6 +306,7 @@ export default function GiftGenerator () {
             </button>
           }
         </div>
+        {page === 2 && conditionalPregeneratedInterests(age, gender)}
       {giftIdeas && 
       <>
       <h1 className="text-lg font-bold">Here are some gift ideas!</h1>
