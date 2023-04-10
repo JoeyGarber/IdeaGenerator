@@ -236,10 +236,10 @@ export default function GiftGenerator () {
                   <h3 className={headingClass}>What's something they're interested in?</h3>
                   <div>
                     <h2 className="text-xl font-bold m-0">Selected Interests: </h2>
-                    <h4 className="font-thin p-0 mb-2">Click an interest to delete it</h4>
+                    <h4 className="font-thin p-0 mb-2">Click an interest to remove it</h4>
 
                       <ul className="list-disc font-bold text-xl">
-                      {interests.map((interest:string, index:number) => <li className="hover:" onClick={() => removeInterest(interest)} key={index}>{interest}</li>)}
+                      {interests.map((interest:string, index:number) => <li className="hover:text-slate-600" onClick={() => removeInterest(interest)} key={index}>{interest}</li>)}
                       </ul>
                   </div>
                   <form onSubmit={(e) => handleSubmitInterest(e)}>
