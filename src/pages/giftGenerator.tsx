@@ -101,6 +101,10 @@ export default function GiftGenerator () {
     }
   }
 
+  const removeInterest = (interest: string) => {
+    setInterests((prev: string[]) => prev.filter((int:string) => int !== interest))
+  }
+
   const handleSubmitInterest = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     addUniqueInterest(interest)
@@ -115,7 +119,7 @@ export default function GiftGenerator () {
             if (interests.indexOf(interest) > -1) {
               return (
                 <p className="font-bold text-white" key={index} onClick={(e) => {
-                  addUniqueInterest(interest)
+                  removeInterest(interest)
                 }}>{interest}</p>
               )
             }
@@ -235,7 +239,7 @@ export default function GiftGenerator () {
                     <h4 className="font-thin p-0 mb-2">Click an interest to delete it</h4>
 
                       <ul className="list-disc font-bold text-xl">
-                      {interests.map((interest:string, index:number) => <li onClick={() => setInterests((prev: string[]) => prev.filter((int:string) => int !== interest))} key={index}>{interest}</li>)}
+                      {interests.map((interest:string, index:number) => <li className="hover:" onClick={() => removeInterest(interest)} key={index}>{interest}</li>)}
                       </ul>
                   </div>
                   <form onSubmit={(e) => handleSubmitInterest(e)}>
