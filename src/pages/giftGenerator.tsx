@@ -75,7 +75,7 @@ export default function GiftGenerator () {
     // Split on line breaks, filter out empty entries
     const cleanedIdeasArray = cleanedIdeas.split(/\n/).filter((idea: string) => idea.length > 0)
     return (
-      <ul className="flex flex-col items-center p-3">
+      <ul className="flex flex-col flex-wrap items-center p-3">
         {cleanedIdeasArray.map((idea: string, idx: number) => {
           const amazonUrl = `https://amazon.com/s?k=${idea.replaceAll(' ', '+')}&linkCode=ll2&tag=idealgifts09-20`
           return (
