@@ -120,7 +120,7 @@ export default function GiftGenerator () {
               )
             }
             return (
-              <p className="font-bold" key={index} onClick={(e) => {
+              <p className="font-bold hover:text-white" key={index} onClick={(e) => {
                 addUniqueInterest(interest)
               }}>{interest}</p>
             )
