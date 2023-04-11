@@ -26,6 +26,7 @@ export default function GiftGenerator () {
   <iframe src="https://giphy.com/embed/5Y2bU7FqLOuzK" title="forth" className="giphy-embed" allowFullScreen></iframe>,
   <iframe src="https://giphy.com/embed/9VrBXYVGAX0bAEzSAT" title="fifth" className="giphy-embed" allowFullScreen></iframe>,
   <iframe src="https://giphy.com/embed/xULW8ohR9OvNoohoEU" title="sixth" className="giphy-embed" allowFullScreen></iframe>,
+  // Make sure to add a comma after gifs to not break it, but no comma on the last one
   <iframe src="https://giphy.com/embed/zy6cfH1ZelttK" title="seventh" className="giphy-embed" allowFullScreen></iframe>
   ]
 
@@ -78,6 +79,7 @@ export default function GiftGenerator () {
       <ul className="flex flex-col flex-wrap items-center p-3">
         {cleanedIdeasArray.map((idea: string, idx: number) => {
           const amazonUrl = `https://amazon.com/s?k=${idea.replaceAll(' ', '+')}&linkCode=ll2&tag=idealgifts09-20`
+          // Only edit inside of className if anything in this section. Tailwind for edits
           return (
           <li key={idx}><a className="text-blue-600 font-bold dark:text-blue-500 hover:underline m-2" href={amazonUrl}>{idea}</a></li>
           )
@@ -229,7 +231,7 @@ export default function GiftGenerator () {
                   <div className={ageButtonClass} onClick={() => setAgeAndIncrement('mid thirties')}><p>30s</p></div>
                   <div className={ageButtonClass} onClick={() => setAgeAndIncrement('mid forties')}><p>40s</p></div>
                   <div className={ageButtonClass} onClick={() => setAgeAndIncrement('mid fifties')}><p>50s</p></div>
-                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('sixty years old or older')}><p>60s</p></div>
+                  <div className={ageButtonClass} onClick={() => setAgeAndIncrement('sixty years old or older')}><p>60s or older</p></div>
                 </div>
       case 2:
         return  <div className="flex flex-col items-center">
