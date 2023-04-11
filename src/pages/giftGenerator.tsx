@@ -204,7 +204,7 @@ export default function GiftGenerator () {
     switch (page) {
       case 0:
         return  <div className="flex flex-col items-center">
-                  <h3 className={headingClass}>Select Your Recipient's Gender</h3>
+                  <h3 className={headingClass}>Step 1: Who is getting the gift?</h3>
                   <div className={`${genderButtonClass} border-pink-500`}>
                     <img alt='woman icon'  src={Female} onClick={() => {
                       setGender('female')
@@ -222,7 +222,7 @@ export default function GiftGenerator () {
                 </div>
       case 1:
         return  <div className="flex flex-col items-center">
-                  <h3 className={headingClass}>Select Your Recipient's Age</h3>
+                  <h3 className={headingClass}>Step 2: How old are they?</h3>
                   <div className={ageButtonClass} onClick={() => setAgeAndIncrement('toddler age')}><p>Toddler</p></div>
                   <div className={ageButtonClass} onClick={() => setAgeAndIncrement('elementary school age')}><p>Elementary School</p></div>           
                   <div className={ageButtonClass} onClick={() => setAgeAndIncrement('middle school age')}><p>Middle School</p></div>           
@@ -235,7 +235,7 @@ export default function GiftGenerator () {
                 </div>
       case 2:
         return  <div className="flex flex-col items-center">
-                  <h3 className={headingClass}>What's something they're interested in?</h3>
+                  <h3 className={headingClass}>Step 3: What are they into?</h3>
                   <div>
                     <h2 className="text-xl font-bold m-0">Selected Interests: </h2>
                     <h4 className="font-thin p-0 mb-2">Click an interest to remove it</h4>
@@ -245,14 +245,14 @@ export default function GiftGenerator () {
                       </ul>
                   </div>
                   <form onSubmit={(e) => handleSubmitInterest(e)}>
-                    <input autoFocus onFocus={(e) => e.currentTarget.select()} className="outline outline-1 m-1" type="text" placeholder="interest" value={interest} onChange={(e) => setInterest(e.target.value)}  />
+                    <input autoFocus onFocus={(e) => e.currentTarget.select()} className="outline outline-1 m-1" type="text" placeholder="type an interest here" value={interest} onChange={(e) => setInterest(e.target.value)}  />
                     <button type="submit" className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-blue-500">Add Interest</button>
                   </form>
                   <h2 className="font-thin m-0">Click "Next" when you're finished</h2>
                 </div>
       case 3:
         return  <div className="flex flex-col items-center">
-                  <h3 className={headingClass}>Select Your Budget</h3>
+                  <h3 className={headingClass}>Step 3: How much do you love them?</h3>
                   <img alt='Up To Twenty' className={budgetButtonClass} src={UpToTwenty} onClick={() => {
                     setBudget('up to 20 dollars')
                     setPage((prev) => prev + 1)
@@ -293,7 +293,7 @@ export default function GiftGenerator () {
   return (
     <div className="flex flex-col items-center">
       <div className="flex justify-center w-screen bg-white pb-1 mb-4">
-        <h1 className="text-3xl font-bold m-4" onClick={resetTest}>Gift Generator</h1>
+        <h1 className="text-3xl font-bold m-4" onClick={resetTest}>Gift Idea Generator</h1>
       </div>
       {conditionalForm()}
         <div>
@@ -311,7 +311,7 @@ export default function GiftGenerator () {
         {page === 2 && conditionalPregeneratedInterests(age, gender)}
       {giftIdeas && 
       <>
-      <h1 className="text-lg font-bold">Here are some gift ideas!</h1>
+      <h1 className="text-lg font-bold">Step 4:</h1>
       <h3 className="text-lg">Click any to see the top options!</h3>
       {formatOutput(giftIdeas)}
       <h6 className="text-md">As an Amazon Associate I earn from qualifying purchases. Happy gifting!</h6>
