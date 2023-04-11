@@ -118,17 +118,13 @@ export default function GiftGenerator () {
       return (
         <div className="flex flex-col">
           {interestArray.map((interest: string, index: number) => {
-            if (interests.indexOf(interest) > -1) {
+            if (interests.findIndex((item: string) => interest.toLowerCase() === item.toLowerCase()) > -1) {
               return (
-                <p className="font-bold text-white" key={index} onClick={(e) => {
-                  removeInterest(interest)
-                }}>{interest}</p>
+                <p className="font-bold text-white" key={index} onClick={() => removeInterest(interest)}>{interest}</p>
               )
             }
             return (
-              <p className="font-bold hover:text-white" key={index} onClick={(e) => {
-                addUniqueInterest(interest)
-              }}>{interest}</p>
+              <p className="font-bold betterhover:hover:text-white" key={index} onClick={() => {addUniqueInterest(interest)}}>{interest}</p>
             )
           })}
         </div>
