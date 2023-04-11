@@ -248,7 +248,7 @@ export default function GiftGenerator () {
                 </div>
       case 3:
         return  <div className="flex flex-col items-center">
-                  <h3 className={headingClass}>Step 3: How much do you love them?</h3>
+                  <h3 className={headingClass}>Step 4: How much do you love them?</h3>
                   <img alt='Up To Twenty' className={budgetButtonClass} src={UpToTwenty} onClick={() => {
                     setBudget('up to 20 dollars')
                     setPage((prev) => prev + 1)
