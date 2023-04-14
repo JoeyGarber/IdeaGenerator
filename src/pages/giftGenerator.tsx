@@ -292,7 +292,7 @@ export default function GiftGenerator () {
         <h1 className="text-3xl font-bold m-4" onClick={resetTest}>The Gift Idea Generator</h1>
       </div>
       <div className="flex justify-center w-screen bg-white pb-1 mb-1">
-        <h1 className="content-center shrink h-1 text-2xl font-italic m-0 pt-0 pb-7" onClick={resetTest}>GiftG.co - Send it to a friend</h1>
+        <h1 className="content-center shrink h-1 text-2xl font-italic m-0 pt-0 pb-7">GiftG.co - Send it to a friend</h1>
       </div>
       {conditionalForm()}
         <div>
