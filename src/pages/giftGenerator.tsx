@@ -9,6 +9,7 @@ import UpToHundred from '../assets/UpToHundred.png'
 import HundredOrMore from '../assets/HundredOrMore.png'
 import { pregeneratedInterests } from '../pregeneratedInterests'
 import { submitJotform } from '../api/jotform'
+import { isDisabled } from '@testing-library/user-event/dist/utils'
 
 export default function GiftGenerator () {
   const [page, setPage] = useState(0)
@@ -30,9 +31,9 @@ export default function GiftGenerator () {
   <iframe src="https://giphy.com/embed/zy6cfH1ZelttK" title="seventh" className="giphy-embed" allowFullScreen></iframe>
   ]
 
-  const generateGifts = (budget: string, age: string, gender: string, interest: string) => {
+  const generateGifts = () => {
     const model = "gpt-3.5-turbo"
-    if (budget && age && gender && interest) {
+    if (allParamsFilled()) {
       const content = `Give me a list of gift ideas without descriptions for gifts ${budget} for a(n) ${age} ${gender} who is interested in ${formatInterests(interests)}`
       generateIdeas({ model, content })
       .then((resp: any) => {
@@ -60,7 +61,7 @@ export default function GiftGenerator () {
 
   useEffect(() => {
     if (allParamsFilled()) {
-      generateGifts(budget, age, gender, formatInterests(interests))
+      generateGifts()
       setBudget('')
       setAge('')
       setGender('')
@@ -302,7 +303,7 @@ export default function GiftGenerator () {
             </button>
           }
           {page === 2 &&
-            <button className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" onClick={handleNext}>
+            <button className={`${interests.length > 0 ? 'bg-white hover:bg-blue-700' : 'bg-slate-500'} text-black font-bold py-2 px-4 rounded m-3 border-2 border-black`} disabled={interests.length === 0} onClick={handleNext}>
             Next
             </button>
           }
