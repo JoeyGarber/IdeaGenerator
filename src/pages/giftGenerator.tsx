@@ -33,7 +33,7 @@ export default function GiftGenerator () {
   const generateGifts = (budget: string, age: string, gender: string, interest: string) => {
     const model = "gpt-3.5-turbo"
     if (budget && age && gender && interest) {
-      const content = `Give me a list of gift ideas without descriptions for gifts ${budget} for a(n) ${age} ${gender} who is interested in ${interest}`
+      const content = `Give me a list of gift ideas without descriptions for gifts ${budget} for a(n) ${age} ${gender} who is interested in ${formatInterests(interests)}`
       generateIdeas({ model, content })
       .then((resp: any) => {
         setGiftIdeas(resp.data.choices[0].message.content)
@@ -312,8 +312,10 @@ export default function GiftGenerator () {
       <>
       <h1 className="text-lg font-bold">Step 4:</h1>
       <h3 className="text-lg">Click any to see the top options!</h3>
+      {/* TODO: Put Modal trigger here */}
       {formatOutput(giftIdeas)}
       <h6 className="text-md">As an Amazon Associate I earn from qualifying purchases. Happy gifting!</h6>
+      {/* TODO: Put Modal trigger here */}
       </>
       }
     </div>
