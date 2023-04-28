@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { generateIdeas } from '../api/openAi'
+import { invokeLambdaFunction } from '../lambdaFunctions'
 
 import Female from '../assets/Female.png'
 import Male from '../assets/Male.png'
@@ -19,6 +20,7 @@ export default function GiftGenerator () {
   const [interest, setInterest] = useState('')
   const [interests, setInterests] = useState<string[]>([])
   const [giftIdeas, setGiftIdeas] = useState('')
+  const [email, setEmail] = useState('')
 
   const gifs  = [
   <iframe src="https://giphy.com/embed/91bOJ10KUjjLjSD6DC" title="first" className="giphy-embed" allowFullScreen></iframe>,
@@ -216,6 +218,17 @@ export default function GiftGenerator () {
                     }} />
                     <p className="text-lg font-bold">Male</p>
                   </div>
+                  <h2 className="text-xl font-bold m-0">Input your email to have your results sent to you!</h2>
+                  <p>We will never email you anything else, we pinky promise</p>
+                  <input type="email" onChange={(e) => setEmail(e.target.value)} />
+                  <input type="submit" onClick={() => invokeLambdaFunction('sendResults', {
+                    to: 'joseph.z.garber@gmail.com',
+                    from: 'ben@giftg.co',
+                    template_id: process.env.REACT_APP_SENDGRID_RESULTS_TEMPLATE_ID,
+                    dynamic_template_data: {
+                      testVariable: 'Major test!'
+                    }
+                    })} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black"/>
                 </div>
       case 1:
         return  <div className="flex flex-col items-center">
@@ -317,6 +330,7 @@ export default function GiftGenerator () {
       {formatOutput(giftIdeas)}
       <h6 className="text-md">As an Amazon Associate I earn from qualifying purchases. Happy gifting!</h6>
       {/* TODO: Put Modal trigger here */}
+
       </>
       }
     </div>
