@@ -11,7 +11,7 @@ type SendGridPayload = {
   from: string
   template_id: string | undefined
   dynamic_template_data: {
-      testVariable: string
+      results: JSX.Element | { amazonUrl: string; idea: string; }[]
   }
 }
 
