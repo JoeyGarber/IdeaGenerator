@@ -376,6 +376,7 @@ export default function GiftGenerator () {
                 }
               )
               .then(() => setEmail(''))
+              .then(() => closeModal())
               } className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black"/>
             </div>
           </div>
