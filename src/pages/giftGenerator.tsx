@@ -351,10 +351,10 @@ export default function GiftGenerator () {
       <>
       <h1 className="text-lg font-bold">Step 4:</h1>
       <h3 className="text-lg">Click any to see the top options!</h3>
-      <input type="submit" value="Email Results!" onClick={openModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
+      <input type="submit" value="Click to email yourself this list!" onClick={openModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
       {formatOutput(giftIdeas)}
       <h6 className="text-md">As an Amazon Associate I earn from qualifying purchases. Happy gifting!</h6>
-      <input type="submit" value="Email Results!" onClick={openModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
+      <input type="submit" value="Click to email yourself this list!" onClick={openModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
