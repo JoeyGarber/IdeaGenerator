@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Modal from 'react-modal'
 import { generateIdeas } from '../api/openAi'
 import { invokeLambdaFunction } from '../lambdaFunctions'
 
@@ -12,6 +13,8 @@ import { pregeneratedInterests } from '../pregeneratedInterests'
 import { submitJotform } from '../api/jotform'
 import { isDisabled } from '@testing-library/user-event/dist/utils'
 
+Modal.setAppElement('#root')
+
 export default function GiftGenerator () {
   const [page, setPage] = useState(0)
   const [budget, setBudget] = useState('')
@@ -21,6 +24,26 @@ export default function GiftGenerator () {
   const [interests, setInterests] = useState<string[]>([])
   const [giftIdeas, setGiftIdeas] = useState('')
   const [email, setEmail] = useState('')
+  const [modalIsOpen, setModalIsOpen] = useState(false)
+
+  const modalCustomStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
+
+  const openModal = () => {
+    setModalIsOpen(true)
+  }
+
+  const closeModal = () => {
+    setModalIsOpen(false)
+  }
 
   const gifs  = [
   <iframe src="https://giphy.com/embed/91bOJ10KUjjLjSD6DC" title="first" className="giphy-embed" allowFullScreen></iframe>,
@@ -73,11 +96,24 @@ export default function GiftGenerator () {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [budget, gender, age, interest])
 
-  const formatOutput = (ideas: string) => {
+  const formatOutput = (ideas: string, email?: boolean) => {
     // Remove all instances of numbers followed by a period and 0 or more spaces at the beginning of a line
     const cleanedIdeas = ideas.replaceAll(/\d+\.\s*/gm, '')
     // Split on line breaks, filter out empty entries
     const cleanedIdeasArray = cleanedIdeas.split(/\n/).filter((idea: string) => idea.length > 0)
+    if (email) {
+      return (
+        cleanedIdeasArray.map((idea: string, idx: number) => {
+          const amazonUrl = `https://amazon.com/s?k=${idea.replaceAll(' ', '+')}&linkCode=ll2&tag=idealgifts09-20`
+          return (
+            {
+              amazonUrl,
+              idea
+            }
+          )
+        })
+      )
+    }
     return (
       <ul className="flex flex-col flex-wrap items-center p-3">
         {cleanedIdeasArray.map((idea: string, idx: number) => {
@@ -226,7 +262,7 @@ export default function GiftGenerator () {
                     from: 'ben@giftg.co',
                     template_id: process.env.REACT_APP_SENDGRID_RESULTS_TEMPLATE_ID,
                     dynamic_template_data: {
-                      testVariable: 'Major test!'
+                      results: formatOutput(giftIdeas, true)
                     }
                     })} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black"/>
                 </div>
@@ -326,11 +362,39 @@ export default function GiftGenerator () {
       <>
       <h1 className="text-lg font-bold">Step 4:</h1>
       <h3 className="text-lg">Click any to see the top options!</h3>
-      {/* TODO: Put Modal trigger here */}
+      <input type="submit" value="Email Results!" onClick={openModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
       {formatOutput(giftIdeas)}
       <h6 className="text-md">As an Amazon Associate I earn from qualifying purchases. Happy gifting!</h6>
-      {/* TODO: Put Modal trigger here */}
-
+      <input type="submit" value="Email Results!" onClick={openModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={modalCustomStyles}
+      >
+        <div className="flex flex-col">
+          <div className="flex justify-end">
+            <input type="submit" className="right-0" value="X" onClick={closeModal} />
+          </div>
+          <div className="flex flex-col items-center">
+            <h2 className="text-xl font-bold m-0">Input your email to have your results sent to you!</h2>
+            <p className="m-2">We will never email you anything else, we pinky promise</p>
+            <input type="email" className="border-2 border-black" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="submit" onClick={() =>
+            invokeLambdaFunction('sendResults', {
+                to: email,
+                from: 'ben@giftg.co',
+                template_id: process.env.REACT_APP_SENDGRID_RESULTS_TEMPLATE_ID,
+                dynamic_template_data: {
+                    results: formatOutput(giftIdeas, true)
+                  }
+                }
+              )
+              .then(() => setEmail(''))
+              .then(() => closeModal())
+              } className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black"/>
+            </div>
+          </div>
+      </Modal>
       </>
       }
     </div>
