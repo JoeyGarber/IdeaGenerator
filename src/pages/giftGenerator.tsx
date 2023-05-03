@@ -254,17 +254,6 @@ export default function GiftGenerator () {
                     }} />
                     <p className="text-lg font-bold">Male</p>
                   </div>
-                  <h2 className="text-xl font-bold m-0">Input your email to have your results sent to you!</h2>
-                  <p>We will never email you anything else, we pinky promise</p>
-                  <input type="email" onChange={(e) => setEmail(e.target.value)} />
-                  <input type="submit" onClick={() => invokeLambdaFunction('sendResults', {
-                    to: 'joseph.z.garber@gmail.com',
-                    from: 'ben@giftg.co',
-                    template_id: process.env.REACT_APP_SENDGRID_RESULTS_TEMPLATE_ID,
-                    dynamic_template_data: {
-                      results: formatOutput(giftIdeas, true)
-                    }
-                    })} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black"/>
                 </div>
       case 1:
         return  <div className="flex flex-col items-center">
