@@ -368,7 +368,7 @@ export default function GiftGenerator () {
             <h2 className="text-xl font-bold m-0">Type your email address in the box</h2>
             <p className="m-2">We will never email you random stuff, just the gift list, pinky promise</p>
             <input type="email" className="border-2 border-black" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="click here to get the email" onClick={() =>
+            <input type="submit" onClick={() =>
             invokeLambdaFunction('sendResults', {
                 to: email,
                 from: 'ben@giftg.co',
