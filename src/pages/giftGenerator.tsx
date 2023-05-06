@@ -350,11 +350,11 @@ export default function GiftGenerator () {
       {giftIdeas && 
       <>
       <h1 className="text-lg font-bold">Step 4:</h1>
-      <h3 className="text-lg">Click any to see the top options!</h3>
+      <h3 className="text-lg">Click an idea to see the top options!</h3>
       <input type="submit" value="Click to email yourself this list!" onClick={openModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
       {formatOutput(giftIdeas)}
       <h6 className="text-md">As an Amazon Associate I earn from qualifying purchases. Happy gifting!</h6>
-      <input type="submit" value="Click to email yourself this list!" onClick={openModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
+      <input type="submit" value="Email the list!" onClick={openModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -365,10 +365,10 @@ export default function GiftGenerator () {
             <input type="submit" className="right-0" value="X" onClick={closeModal} />
           </div>
           <div className="flex flex-col items-center">
-            <h2 className="text-xl font-bold m-0">Input your email to have your results sent to you!</h2>
-            <p className="m-2">We will never email you anything else, we pinky promise</p>
+            <h2 className="text-xl font-bold m-0">Type your email address in the box</h2>
+            <p className="m-2">We will never email you random stuff, just the gift list, pinky promise</p>
             <input type="email" className="border-2 border-black" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="submit" onClick={() =>
+            <input type="click here to get the email" onClick={() =>
             invokeLambdaFunction('sendResults', {
                 to: email,
                 from: 'ben@giftg.co',
