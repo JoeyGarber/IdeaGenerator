@@ -309,7 +309,7 @@ export default function GiftGenerator () {
         return (
             <>
               {gifs[Math.floor(Math.random() * gifs.length)]}
-              <p>Loading gift ideas just for you! Email a screenshot of your order to Ben@GiftG.co and get a $5 Amazon gift card! *Through May 15* .</p>
+              <p>Loading gift ideas... For a chance to win a $10 giftcard, email yourself the generated list. 1 random winner per month!</p>
             </>
         )
     }
