@@ -16,7 +16,8 @@ type SendGridPayload = {
 }
 
 type TwilioSmsPayload = {
-  msg: string
+  msg: string,
+  to: string
 }
 
 export const invokeLambdaFunction = (functionName: string, payload: SendGridPayload | TwilioSmsPayload) => {
