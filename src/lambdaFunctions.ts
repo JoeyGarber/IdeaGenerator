@@ -15,7 +15,11 @@ type SendGridPayload = {
   }
 }
 
-export const invokeLambdaFunction = (functionName: string, payload: SendGridPayload) => {
+type TwilioSmsPayload = {
+  msg: string
+}
+
+export const invokeLambdaFunction = (functionName: string, payload: SendGridPayload | TwilioSmsPayload) => {
   const lambda = new AWS.Lambda();
   const params = {
     FunctionName: functionName,
