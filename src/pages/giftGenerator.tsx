@@ -24,7 +24,9 @@ export default function GiftGenerator () {
   const [interests, setInterests] = useState<string[]>([])
   const [giftIdeas, setGiftIdeas] = useState('')
   const [email, setEmail] = useState('')
-  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [tel, setTel] = useState('')
+  const [smsModalIsOpen, setSmsModalIsOpen] = useState(false)
+  const [emailModalIsOpen, setEmailModalIsOpen] = useState(false)
 
   const modalCustomStyles = {
     content: {
@@ -37,12 +39,20 @@ export default function GiftGenerator () {
     },
   };
 
-  const openModal = () => {
-    setModalIsOpen(true)
+  const openSmsModal = () => {
+    setSmsModalIsOpen(true)
   }
 
-  const closeModal = () => {
-    setModalIsOpen(false)
+  const closeSmsModal = () => {
+    setSmsModalIsOpen(false)
+  }
+
+  const openEmailModal = () => {
+    setEmailModalIsOpen(true)
+  }
+
+  const closeEmailModal = () => {
+    setEmailModalIsOpen(false)
   }
 
   const gifs  = [
@@ -96,12 +106,12 @@ export default function GiftGenerator () {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [budget, gender, age, interest])
 
-  const formatOutput = (ideas: string, email?: boolean) => {
+  const formatOutput = (ideas: string, twilioService: boolean = false) => {
     // Remove all instances of numbers followed by a period and 0 or more spaces at the beginning of a line
     const cleanedIdeas = ideas.replaceAll(/\d+\.\s*/gm, '')
     // Split on line breaks, filter out empty entries
     const cleanedIdeasArray = cleanedIdeas.split(/\n/).filter((idea: string) => idea.length > 0)
-    if (email) {
+    if (twilioService) {
       return (
         cleanedIdeasArray.map((idea: string, idx: number) => {
           const amazonUrl = `https://amazon.com/s?k=${idea.replaceAll(' ', '+')}&linkCode=ll2&tag=idealgifts09-20`
@@ -351,22 +361,49 @@ export default function GiftGenerator () {
       <>
       <h1 className="text-lg font-bold">Step 4:</h1>
       <h3 className="text-lg">Click an idea to see the top options!</h3>
-      <input type="submit" value="Click to email yourself this list!" onClick={openModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
+      <input type="submit" value="Click to text yourself this list!" onClick={openSmsModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
       {formatOutput(giftIdeas)}
       <h6 className="text-md">As an Amazon Associate I earn from qualifying purchases. Happy gifting!</h6>
-      <input type="submit" value="Email the list!" onClick={openModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
+      <input type="submit" value="Click to email yourself this list!" onClick={openEmailModal} className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black" />
       <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
+        isOpen={smsModalIsOpen}
+        onRequestClose={closeSmsModal}
         style={modalCustomStyles}
       >
         <div className="flex flex-col">
           <div className="flex justify-end">
-            <input type="submit" className="right-0" value="X" onClick={closeModal} />
+            <input type="submit" className="right-0" value="X" onClick={closeSmsModal} />
+          </div>
+          <div className="flex flex-col items-center">
+            <h2 className="text-xl font-bold m-0">Type your phone number in the box</h2>
+            <p className="m-2">We will never text you random stuff, just the gift list, pinky promise.</p>
+            <p className="m-1"><strong>Number should be 10 digits, no spaces or other characters</strong></p>
+            <input type="tel" className="border-2 border-black" value={tel} onChange={(e) => setTel(e.target.value)} />
+            <input type="submit" onClick={() =>
+            invokeLambdaFunction('sendResultsSms', {
+                to: "+1" + tel,
+                msg: formatOutput(giftIdeas, true)
+                }
+              )
+              .then(() => setTel(''))
+              .then(() => closeSmsModal())
+              } className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black"/>
+            </div>
+          </div>
+      </Modal>
+      {/* EMAIL MODAL */}
+      <Modal
+        isOpen={emailModalIsOpen}
+        onRequestClose={closeEmailModal}
+        style={modalCustomStyles}
+      >
+        <div className="flex flex-col">
+          <div className="flex justify-end">
+            <input type="submit" className="right-0" value="X" onClick={closeEmailModal} />
           </div>
           <div className="flex flex-col items-center">
             <h2 className="text-xl font-bold m-0">Type your email address in the box</h2>
-            <p className="m-2">We will never email you random stuff, just the gift list, pinky promise</p>
+            <p className="m-2">We will never email you random stuff, just the gift list, pinky promise.</p>
             <input type="email" className="border-2 border-black" value={email} onChange={(e) => setEmail(e.target.value)} />
             <input type="submit" onClick={() =>
             invokeLambdaFunction('sendResults', {
@@ -379,7 +416,7 @@ export default function GiftGenerator () {
                 }
               )
               .then(() => setEmail(''))
-              .then(() => closeModal())
+              .then(() => closeEmailModal())
               } className="bg-white hover:bg-blue-700 text-black font-bold py-2 px-4 rounded m-3 border-2 border-black"/>
             </div>
           </div>

@@ -16,8 +16,8 @@ type SendGridPayload = {
 }
 
 type TwilioSmsPayload = {
-  msg: string,
-  to: string
+  to: string,
+  msg: JSX.Element | { amazonUrl: string, idea: string }[]
 }
 
 export const invokeLambdaFunction = (functionName: string, payload: SendGridPayload | TwilioSmsPayload) => {
