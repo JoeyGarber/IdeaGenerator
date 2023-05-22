@@ -378,7 +378,7 @@ export default function GiftGenerator () {
             <h2 className="text-xl font-bold m-0">Type your phone number in the box</h2>
             <p className="m-2">We will never text you random stuff, just the gift list, pinky promise.</p>
             <p className="m-1"><strong>Number should be 10 digits, no spaces or other characters</strong></p>
-            <input type="tel" className="border-2 border-black" value={tel} onChange={(e) => setTel(e.target.value)} />
+            <input type="tel" className="border-2 border-black" placeholder="e.g. 4086570749" value={tel} onChange={(e) => setTel(e.target.value)} />
             <input type="submit" onClick={() =>
             invokeLambdaFunction('sendResultsSms', {
                 to: "+1" + tel,
