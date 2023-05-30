@@ -11,9 +11,12 @@ import UpToHundred from '../assets/UpToHundred.png'
 import HundredOrMore from '../assets/HundredOrMore.png'
 import { pregeneratedInterests } from '../pregeneratedInterests'
 import { submitJotform } from '../api/jotform'
+import TiktokPixel from 'tiktok-pixel'
 import { isDisabled } from '@testing-library/user-event/dist/utils'
 
 Modal.setAppElement('#root')
+
+TiktokPixel.init(process.env.REACT_APP_TIKTOK_PIXEL_ID ?? '', { debug: true })
 
 export default function GiftGenerator () {
   const [page, setPage] = useState(0)
@@ -130,7 +133,7 @@ export default function GiftGenerator () {
           const amazonUrl = `https://amazon.com/s?k=${idea.replaceAll(' ', '+')}&linkCode=ll2&tag=idealgifts09-20`
           // Only edit inside of className if anything in this section. Tailwind for edits
           return (
-          <li key={idx}><a className="text-blue-600 font-bold dark:text-blue-500 hover:underline m-2" href={amazonUrl}>{idea}</a></li>
+          <li key={idx}><a className="text-blue-600 font-bold dark:text-blue-500 hover:underline m-2" href={amazonUrl} target="_blank" rel="noreferrer">{idea}</a></li>
           )
         })}
       </ul>
