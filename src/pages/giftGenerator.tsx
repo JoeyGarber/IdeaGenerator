@@ -77,7 +77,7 @@ export default function GiftGenerator () {
       .then((resp: any) => {
         setGiftIdeas(resp.data.choices[0].message.content)
       })
-      .then(() => submitJotform(budget, age, gender, interest))
+      .then(() => submitJotform(budget, age, gender, formatInterests(interests)))
       .then(() => setPage(5))
       .catch((error) => console.log(error))
     }
