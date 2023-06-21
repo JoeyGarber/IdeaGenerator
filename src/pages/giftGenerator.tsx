@@ -146,7 +146,7 @@ export default function GiftGenerator () {
 
   const setAgeAndIncrement = (age: string) => {
     setAge(age)
-    setPage((prev) => prev + 1)
+    handleNext()
   }
 
   const addUniqueInterest = (interest: string) => {
@@ -256,14 +256,14 @@ export default function GiftGenerator () {
                   <div className={`${genderButtonClass} border-pink-500`}>
                     <img alt='woman icon'  src={Female} onClick={() => {
                       setGender('female')
-                      setPage((prev) => prev + 1)
+                      handleNext()
                     }} />
                     <p className="text-lg font-bold">Female</p>
                   </div>
                   <div className={`${genderButtonClass} border-blue-500`}>
                     <img alt='man icon' src={Male} onClick={() => {
                       setGender('male')
-                      setPage((prev) => prev + 1)
+                      handleNext()
                     }} />
                     <p className="text-lg font-bold">Male</p>
                   </div>
@@ -303,19 +303,19 @@ export default function GiftGenerator () {
                   <h3 className={headingClass}>Step 4: How much do you love them?</h3>
                   <img alt='Up To Twenty' className={budgetButtonClass} src={UpToTwenty} onClick={() => {
                     setBudget('up to 20 dollars')
-                    setPage((prev) => prev + 1)
+                    handleNext()
                   }} />
                   <img alt='Up to Forty' className={budgetButtonClass} src={UpToForty} onClick={() => {
                     setBudget('up to 40 dollars')
-                    setPage((prev) => prev + 1)
+                    handleNext()
                   }} />
                   <img alt='Up to One Hundred' className={budgetButtonClass} src={UpToHundred} onClick={() => {
                     setBudget('up to 100 dollars')
-                    setPage((prev) => prev + 1)
+                    handleNext()
                   }} />
                   <img alt='One Hundred or More' className={budgetButtonClass} src={HundredOrMore} onClick={() => {
                     setBudget('one hundred dollars or more')
-                    setPage((prev) => prev + 1)
+                    handleNext()
                   }} />
                 </div>
       case 4:
@@ -329,12 +329,14 @@ export default function GiftGenerator () {
   }
 
   const handleNext = () => {
-    setPage((prev) => prev + 1)
+    setPage((prev) => prev + 1);
+    (window as any).ttq.track('ViewContent')
   }
 
   const handlePrev = () => {
     if (page > 0) {
-      setPage((prev) => prev - 1)
+      setPage((prev) => prev - 1);
+      (window as any).ttq.track('ViewContent')
     }
   }
 
