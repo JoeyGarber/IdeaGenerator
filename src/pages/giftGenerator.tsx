@@ -58,6 +58,12 @@ export default function GiftGenerator () {
     setEmailModalIsOpen(false)
   }
 
+  useEffect(() => {
+    (window as any).ttq.track('ViewContent', {
+      description: page
+    })
+  }, [page])
+
   const gifs  = [
   <iframe src="https://giphy.com/embed/91bOJ10KUjjLjSD6DC" title="first" className="giphy-embed" allowFullScreen></iframe>,
   <iframe src="https://giphy.com/embed/trgynYVwIQHL5pp3xB" title="second" className="giphy-embed" allowFullScreen></iframe>,
@@ -330,13 +336,11 @@ export default function GiftGenerator () {
 
   const handleNext = () => {
     setPage((prev) => prev + 1);
-    (window as any).ttq.track('ViewContent')
   }
 
   const handlePrev = () => {
     if (page > 0) {
       setPage((prev) => prev - 1);
-      (window as any).ttq.track('ViewContent')
     }
   }
 
